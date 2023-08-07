@@ -3,12 +3,12 @@ import {Navbar, Nav, Container, Row, Col} from 'react-bootstrap';
 import './App.css';
 import data from './data';
 import Detail from './routes/Detail';
+import axios from 'axios';
+import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 
-
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
  
  
@@ -36,14 +36,40 @@ function App() {
           <div className="main-bg"></div>
           <Container>
           <Row>
-          {/* shoes.map 함수를 Col 컴포넌트의 내부로 옮깁니다. */}
-          {shoes.map((shoe, i) => (
-            <Col key={i}>
-              <Card shoes={shoe} i={i + 1} />
+          {
+          shoes.map(function(shoe, i){ 
+            return(
+            <Col md={4} key={i}>
+              <img
+                            src={`https://codingapple1.github.io/shop/shoes${i + 1}.jpg`}
+                            alt="shoes"
+                            width="80%"
+                          />
+                        <h4>{shoe.title}</h4>
+                        <p>{shoe.price}</p>
             </Col>
-          ))}
+          )})}
+          
         </Row>
+        <button onClick={()=>{
+          axios.get('https://codingapple1.github.io/shop/data2.json').then((결과)=>
+          {
+            let copy = [...shoes,...결과.data]
+            setShoes(copy)
+          })
+          axios.get('https://codingapple1.github.io/shop/data3.json').then((결과)=>
+          {
+            let copy = [...shoes,...결과.data]
+            setShoes(copy)
+          })
+          .catch(()=>{
+            console.log('error')
+          })
+         }}>button</button>
           </Container>
+
+         
+
           </>
         </div>} />
         <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
