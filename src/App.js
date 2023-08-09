@@ -10,8 +10,7 @@ import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 function App() {
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
- 
- 
+  let [count, setCount] = useState(0)
   return (
 
     <div className='App'>
@@ -51,7 +50,10 @@ function App() {
           )})}
           
         </Row>
-        <button onClick={()=>{
+
+        {count == 0 || count ==1?
+        <button onClick={(e)=>{
+          {setCount(count + 1)}
           axios.get('https://codingapple1.github.io/shop/data2.json').then((결과)=>
           {
             let copy = [...shoes,...결과.data]
@@ -61,11 +63,13 @@ function App() {
           {
             let copy = [...shoes,...결과.data]
             setShoes(copy)
+            
           })
           .catch(()=>{
             console.log('error')
           })
-         }}>button</button>
+         }}>button</button>:null}
+         
           </Container>
 
          
@@ -90,7 +94,14 @@ function App() {
 
 
 
- </div>)}
+ </div>
+ 
+ )
+ 
+ 
+
+
+}
       
    {/* <Card shoes = {shoes[0]} i={1}></Card>
    <Card shoes = {shoes[1]} i={2}></Card>

@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { useState } from "react";
 import { useEffect } from "react";
+import Nav from 'react-bootstrap/Nav';
 
 let Box = styled.div`
   background: yellow;
@@ -17,6 +18,7 @@ function Detail(props) {
   let [alert, setAlert] = useState(true);
   let [num, setNum] = useState('');
   let [message, setMessage] = useState('');
+  let [tabs, setTab] = useState(0)
 
   useEffect(() => {
     setTimeout(() => {
@@ -60,8 +62,27 @@ function Detail(props) {
           <button className="btn btn-danger">주문하기</button>
         </div>
       </div>
+      <Nav variant="tabs" defaultActiveKey="link1" >
+      <Nav.Item>
+        <Nav.Link onClick={()=>{setTab(0)}} eventKey="link1">상세 정보</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link onClick={()=>{setTab(1)}}eventKey="link2">후기</Nav.Link>
+      </Nav.Item>
+      <Nav.Item>
+        <Nav.Link onClick={()=>{setTab(2)}}eventKey="link3">문의하기</Nav.Link>
+      </Nav.Item>
+    </Nav>
+    <TabContent tabs={tabs}/>
     </div>
+    
   );
 }
 
+
+
+
+function TabContent(props){
+return [<div>내용</div>, <div>후기</div>, <div>문의하기</div>][props.tabs]
+  }
 export default Detail;
