@@ -3,6 +3,7 @@ import {Navbar, Nav, Container, Row, Col} from 'react-bootstrap';
 import './App.css';
 import data from './data';
 import Detail from './routes/Detail';
+import Cart from './routes/cart';
 import axios from 'axios';
 import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 
@@ -77,7 +78,7 @@ function App() {
           </>
         </div>} />
         <Route path="/detail/:id" element={<Detail shoes={shoes}/>} />
-       
+       <Route path='/cart' element={<Cart/>} />
         
         <Route path="/about" element={<About/>}>
           <Route path='member' element= {<div>회사 직원</div>}/>
