@@ -23,6 +23,16 @@ function Detail(props) {
   let [tabs, setTab] = useState(0)
   let dispatch = useDispatch()
 
+  useEffect(()=>{
+    let getarr = localStorage.getItem('watched')
+    getarr = JSON.parse(getarr)
+    getarr.push(find.id)
+    getarr = new Set(getarr)
+    getarr = Array.from(getarr)
+    localStorage.setItem('watched', JSON.stringify(getarr))
+  },[])
+
+
   useEffect(() => {
     setTimeout(() => {
       setAlert(false);

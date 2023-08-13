@@ -14,7 +14,7 @@ let cart =createSlice({
     },
    addItem(state, action){
     let num = state.findIndex((a)=> a.id === action.payload.id)
-    if (num >= 0){
+    if (num >= 0){ //num은 배열 내에 없을 시 -1을 반환
       state[num].count++;
     }else{
     state.push(action.payload)}

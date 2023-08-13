@@ -12,6 +12,13 @@ function App() {
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
   let [count, setCount] = useState(0)
+
+  useEffect(()=>{
+    if(localStorage.getItem('watched')===null){
+    localStorage.setItem('watched',JSON.stringify( [] ))
+}},[])
+
+
   return (
 
     <div className='App'>
