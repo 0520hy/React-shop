@@ -22,8 +22,8 @@ function App() {
           <Navbar.Brand href="#home">AppleShop</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link onClick={()=>{navigate('/')}}>Home</Nav.Link>
-            <Nav.Link href="#features">My Page</Nav.Link>
-            <Nav.Link onClick={()=>{navigate('/detail')}}>Detail</Nav.Link>e 
+            <Nav.Link onClick={()=>{navigate('/cart')}}>My Cart</Nav.Link>
+            <Nav.Link onClick={()=>{navigate('/detail/1')}}>Detail</Nav.Link>e 
           </Nav>
         </Container>
       </Navbar>

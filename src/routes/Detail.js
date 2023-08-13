@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useState } from "react";
 import { useEffect } from "react";
 import Nav from 'react-bootstrap/Nav';
+import { useDispatch } from "react-redux";
+import {addItem} from './../store.js';
 
 let Box = styled.div`
   background: yellow;
@@ -19,6 +21,7 @@ function Detail(props) {
   let [num, setNum] = useState('');
   let [message, setMessage] = useState('');
   let [tabs, setTab] = useState(0)
+  let dispatch = useDispatch()
 
   useEffect(() => {
     setTimeout(() => {
@@ -59,7 +62,9 @@ function Detail(props) {
           <h4 className="pt-5">{find.title}</h4>
           <p>{find.content}</p>
           <p>{find.price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button className="btn btn-danger" onClick={()=> {
+              dispatch(addItem({id: find.id, name: find.title, count: 1}))
+          }}>주문하기</button>
         </div>
       </div>
       <Nav variant="tabs" defaultActiveKey="link1" >
