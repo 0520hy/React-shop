@@ -2,9 +2,7 @@ import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { useState } from "react";
 import { useEffect } from "react";
-import Nav from 'react-bootstrap/Nav';
-import { useDispatch } from "react-redux";
-import {addItem} from './../store.js';
+import Importance from "../componenents/Importance"; 
 
 let Box = styled.div`
   background: yellow;
@@ -12,25 +10,19 @@ let Box = styled.div`
 `;
 
 function Detail(props) {
+ 
   let { id } = useParams();
-  let find = props.shoes.find(function (x) {
+  let find = props.list.find(function (x) {
     return x.id == id;
   });
 
   let [alert, setAlert] = useState(true);
-  let [num, setNum] = useState('');
   let [message, setMessage] = useState('');
-  let [tabs, setTab] = useState(0)
-  let dispatch = useDispatch()
+  let [inputValue, setInputValue] = useState('');
+  let [comments, setComments] = useState([]);
+  let [editIndex, setEditIndex] = useState(-1); // 수정할 댓글의 인덱스
 
-  useEffect(()=>{
-    let getarr = localStorage.getItem('watched')
-    getarr = JSON.parse(getarr)
-    getarr.push(find.id)
-    getarr = new Set(getarr)
-    getarr = Array.from(getarr)
-    localStorage.setItem('watched', JSON.stringify(getarr))
-  },[])
+
 
 
   useEffect(() => {
@@ -39,11 +31,41 @@ function Detail(props) {
     }, 2000);
   }, []);
 
-  useEffect(() => {
-    if (isNaN(num)) {
-      setMessage('숫자만 입력 가능합니다');
-    } 
-  }, [num]);
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleAddComment = () => {
+    if (inputValue.trim().length === 0) {
+      setMessage('내용을 입력해주세요.');
+      return;
+    }
+
+    if (editIndex === -1) {
+      // 새로운 댓글 추가
+      setComments([...comments, inputValue]);
+    } else {
+      // 댓글 수정
+      const updatedComments = [...comments];
+      updatedComments[editIndex] = inputValue;
+      setComments(updatedComments);
+      setEditIndex(-1); // 수정 모드 종료
+    }
+
+    setInputValue('');
+    setMessage('');
+  };
+
+  const handleEditComment = (index) => {
+    setInputValue(comments[index]);
+    setEditIndex(index);
+  };
+
+  const handleDeleteComment = (index) => {
+    const updatedComments = [...comments];
+    updatedComments.splice(index, 1);
+    setComments(updatedComments);
+  };
 
   if (!find) {
     return <div>없는 페이지입니다.</div>;
@@ -53,7 +75,7 @@ function Detail(props) {
     <div className="container">
       {alert == true ? (
         <div className="alert alert-warning">
-          <Box>2초 이내 구매시 할인</Box>
+          <Box>Welcome!</Box>
         </div>
       ) : null}
 
@@ -64,40 +86,63 @@ function Detail(props) {
       )}
 
       <div className="row">
-        <div className="col-md-6">
-          <input onChange={((e) => { setNum(e.target.value) })} />
-          <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
-        </div>
         <div className="col-md-6 mt-4">
+          <img src="/images/user.png" width="70%" />
+        </div>
+        <div className="col-md-6 mt-5">
           <h4 className="pt-5">{find.title}</h4>
+          <p></p>
           <p>{find.content}</p>
-          <p>{find.price}원</p>
-          <button className="btn btn-danger" onClick={()=> {
-              dispatch(addItem({id: find.id, name: find.title, count: 1}))
-          }}>주문하기</button>
+          <p>{find.deadline}까지</p>
+          <Importance deadline={find.deadline} />
         </div>
       </div>
-      <Nav variant="tabs" defaultActiveKey="link1" >
-      <Nav.Item>
-        <Nav.Link onClick={()=>{setTab(0)}} eventKey="link1">상세 정보</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={()=>{setTab(1)}}eventKey="link2">후기</Nav.Link>
-      </Nav.Item>
-      <Nav.Item>
-        <Nav.Link onClick={()=>{setTab(2)}}eventKey="link3">문의하기</Nav.Link>
-      </Nav.Item>
-    </Nav>
-    <TabContent tabs={tabs}/>
+
+      <div className="row mt-4">
+        <div className="col-md-12">
+          <h5>**</h5>
+          <div className="mb-3 d-flex justify-content-center align-items-center">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={handleInputChange}
+              className="form-control"
+              style={{ width: '80%', height: '200px', margin: '20px'}}
+              placeholder="추가 내용을 입력하세요."
+            />
+            <button
+              className="btn btn-primary mt-2"
+              onClick={handleAddComment}
+              style={{height: '200px'}}
+            >
+             save
+            </button>
+          </div>
+          {comments.map((comment, index) => (
+            <div key={index} className="card mb-2">
+              <div className="card-body">{comment}</div>
+              <div className="card-footer d-flex justify-content-end">
+                <button
+                  
+                  onClick={() => handleEditComment(index)}
+                 
+                >
+                  update
+                </button>
+                <button
+                  
+                  onClick={() => handleDeleteComment(index)}
+                 
+                >
+                  delete
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
-    
   );
 }
 
-
-
-
-function TabContent(props){
-return [<div>내용</div>, <div>후기</div>, <div>문의하기</div>][props.tabs]
-  }
 export default Detail;
