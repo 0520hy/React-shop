@@ -11,7 +11,6 @@ function Main(props) {
   
   
   const [list, setList] = useState(data);
-
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -30,11 +29,13 @@ function Main(props) {
     handleClose();
   };
 
-  const handleDelete = (index) => {
-    const newList = [...list];
-    newList.splice(index, 1);
+  
+  const handleDelete = (id, event) => {
+    event.stopPropagation(); // 이벤트 버블링 방지
+    const newList = list.filter(item => item.id !== id);
     setList(newList);
   };
+
   const handleDetailClick = (id) => {
     //각 행을 클릭했을때 해당 상세 페이지로 이동
     navigate(`/detail/${id}`);
@@ -53,15 +54,15 @@ function Main(props) {
           </tr>
         </thead>
         <tbody>
-          {list.map((item, i) => (
-            <tr key={item.id} onClick={() => handleDetailClick(item.id)}>
-              <td>{i+1}</td>
-              <td>{item.title}</td>
-              <td>{item.content}</td>
-              <td>{item.deadline}</td>
-              <td><Button onClick={() => handleDelete(i)}>Delete</Button></td>
-            </tr>
-          ))}
+        {list.map((item, i) => (
+  <tr key={item.id} onClick={() => handleDetailClick(item.id)}>
+    <td>{i+1}</td>
+    <td>{item.title}</td>
+    <td>{item.content}</td>
+    <td>{item.deadline}</td>
+    <td><Button onClick={(event) => handleDelete(item.id, event)}>Delete</Button></td>
+  </tr>
+))}
         </tbody>
       </Table>
       <Button variant="primary" onClick={handleShow}>
