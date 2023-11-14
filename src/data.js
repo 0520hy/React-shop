@@ -23,7 +23,24 @@ let data =[
     content : "11/20일 9시 508호 ",
     deadline : "2023-11-20"
   },
- 
+  {
+    id : 4,
+    title : "클라우드 보강 웹엑스 대체",
+    content : "출석 대체 과제 23일까지 ",
+    deadline : "2023-11-20"
+  },
+  {
+    id : 5,
+    title : "클라우드 네이티브 기말 과제",
+    content : "기말고사 대체 과제 제출하기 ",
+    deadline : "2023-11-23"
+  },
+  {
+    id : 6,
+    title : "P프로젝트 OT 및 주제점검",
+    content : "제안서 초안 발표",
+    deadline : "2023-11-24"
+  },
  
   
 ] 
