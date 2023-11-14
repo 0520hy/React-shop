@@ -21,6 +21,7 @@ function Main(props) {
   const handleShow = () => setShow(true);
 
   const handleSubmit = () => {
+    //항목 추가 핸들러
     const newItem = { title, content, deadline };
     setList([...list, newItem]); // list 배열에 항목 추가
     setTitle('');
@@ -35,6 +36,7 @@ function Main(props) {
     setList(newList);
   };
   const handleDetailClick = (id) => {
+    //각 행을 클릭했을때 해당 상세 페이지로 이동
     navigate(`/detail/${id}`);
   };
 

@@ -7,6 +7,7 @@ import { Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import Main from './routes/Main'
 
 
+
 function App() {
   let navigate = useNavigate();
   const list =data;
@@ -15,7 +16,7 @@ function App() {
   return (
 
     <div className='App'>
-
+   
 
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
